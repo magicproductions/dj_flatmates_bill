@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="container mt-5 text-center">
+        <div class="row">
+            <div class="col-12">
+                {% if pdf_url %}
+                    <button id="downloadBtn" class="btn btn-success" onclick="downloadAndRedirect('{{ pdf_url }}')">
+                        Download Your Bill PDF
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+      function downloadAndRedirect(pdfUrl) {
+        window.open(pdfUrl, '_blank');
+        window.location.href = "{% url 'home' %}";
+      }
+    </script>
+{% endblock %}
