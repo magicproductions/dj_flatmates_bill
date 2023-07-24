@@ -3,7 +3,15 @@
 
 {% block content %}
     <div class="container mt-5 text-center">
-        <div class="row">
+        <div class="row mt-5 mb-5">
+            <div class="col-12">
+                <h1 class="mb-5">Bill Share Details</h1>
+                {% for flatmate in flatmates %}
+                    <h5>Flatmate {{ flatmate.name }} pays: <strong>£{{ flatmate.pays }}</strong></h5>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-5">
             <div class="col-12">
                 {% if pdf_url %}
                     <button id="downloadBtn" class="btn btn-success" onclick="downloadAndRedirect('{{ pdf_url }}')">

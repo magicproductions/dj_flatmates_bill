@@ -27,7 +27,19 @@ class CreateBillView(FormView):
             
             pdf_url = static(f'bills/{filename}')
             
-            self.request.session['pdf_url'] = pdf_url
+            self.request.session['bill_details'] = {
+                'pdf_url': pdf_url,
+                'flatmates': [
+                    {
+                        'name': flatmate_1.name,
+                        'pays': flatmate_1.pays(bill, flatmate_2)
+                    },
+                    {
+                        'name': flatmate_2.name,
+                        'pays': flatmate_2.pays(bill, flatmate_1)
+                    },
+                ]
+            }
             
             return redirect('success')
     
@@ -43,9 +55,7 @@ class SuccessView(View):
     template_name = 'success.html'
     
     def get(self, request, *args, **kwargs):
-        pdf_url = request.session.get('pdf_url', '')
+        bill_details = request.session.get('bill_details', {})
         return render(
-            request, self.template_name, {
-                'pdf_url': pdf_url
-            }
+            request, self.template_name, bill_details
         )
